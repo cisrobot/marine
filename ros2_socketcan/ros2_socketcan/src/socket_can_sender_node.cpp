@@ -33,7 +33,7 @@ namespace socketcan
 SocketCanSenderNode::SocketCanSenderNode(rclcpp::NodeOptions options)
 : lc::LifecycleNode("socket_can_sender_node", options)
 {
-  interface_ = this->declare_parameter("interface", "can0");
+  interface_ = this->declare_parameter("interface", "can2");
   enable_fd_ = this->declare_parameter("enable_can_fd", false);
   double timeout_sec = this->declare_parameter("timeout_sec", 0.01);
   timeout_ns_ = std::chrono::duration_cast<std::chrono::nanoseconds>(

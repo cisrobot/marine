@@ -35,7 +35,7 @@ namespace socketcan
 SocketCanReceiverNode::SocketCanReceiverNode(rclcpp::NodeOptions options)
 : lc::LifecycleNode("socket_can_receiver_node", options)
 {
-  interface_ = this->declare_parameter("interface", "can0");
+  interface_ = this->declare_parameter("interface", "can2");
   use_bus_time_ = this->declare_parameter<bool>("use_bus_time", false);
   enable_fd_ = this->declare_parameter<bool>("enable_can_fd", false);
   enable_loopback_ = this->declare_parameter<bool>("enable_frame_loopback", false);

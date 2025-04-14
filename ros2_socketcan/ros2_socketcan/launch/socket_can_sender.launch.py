@@ -77,7 +77,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        DeclareLaunchArgument('interface', default_value='can0'),
+        DeclareLaunchArgument('interface', default_value='can2'),
         DeclareLaunchArgument('enable_can_fd', default_value='false'),
         DeclareLaunchArgument('timeout_sec', default_value='0.01'),
         DeclareLaunchArgument('auto_configure', default_value='true'),

@@ -80,7 +80,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        DeclareLaunchArgument('interface', default_value='can0'),
+        DeclareLaunchArgument('interface', default_value='can2'),
         DeclareLaunchArgument('enable_can_fd', default_value='false'),
         DeclareLaunchArgument('enable_frame_loopback', default_value='false'),
         DeclareLaunchArgument('interval_sec', default_value='0.01'),

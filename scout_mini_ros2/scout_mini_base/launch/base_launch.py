@@ -50,8 +50,7 @@ def generate_launch_description():
                 executable="robot_state_publisher",
                 name="robot_state_publisher",
                 output="screen",
-                parameters=[robot_description],
-                remappings=[("/robot_description", "/scout_mini")]
+                parameters=[robot_description]
             ),
             Node(
                 package="controller_manager",
@@ -79,14 +78,14 @@ def generate_launch_description():
                 ],
                 output="screen",
             ),
-             Node(
-                package="rviz2",
-                executable="rviz2",
-                name="rviz2",
-                output="screen",
-                arguments=["-d", rviz2_config_dir],
-                parameters=[{"use_sim_time": use_sim_time}],
-            ),
+            #  Node(
+            #     package="rviz2",
+            #     executable="rviz2",
+            #     name="rviz2",
+            #     output="screen",
+            #     arguments=["-d", rviz2_config_dir],
+            #     parameters=[{"use_sim_time": use_sim_time}],
+            # ),
             Node(
                 package="twist_mux",
                 executable="twist_mux",

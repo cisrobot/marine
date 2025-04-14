@@ -25,13 +25,13 @@
   <joint name="velodyne_joint" type="fixed">
     <parent link="base_link" />
     <child link="velodyne"/>
-    <origin xyz="0 0 1.5" rpy="0 0 0"/>
+    <origin xyz="0.09 0 0.255" rpy="0 0 0"/>
   </joint>
   
   <joint name="camera_link_joint" type="fixed">
     <parent link="base_link" />
     <child link="camera_link"/>
-    <origin xyz="0 0 1.0" rpy="0 0 0"/>
+    <origin xyz="0.185 0 0.15" rpy="0 0 0"/>
   </joint>
 
   <joint name="inertial_joint" type="fixed">
@@ -159,7 +159,7 @@
   <ros2_control name="scout_mini_control" type="system">
     <hardware>
       <plugin>scout_mini_hardware/ScoutMiniHardware</plugin>
-      <param name="interface">can0</param>
+      <param name="interface">can2</param>
       <param name="wheel_radius">0.0875</param>
       <param name="wheel_separation">0.490</param>
     </hardware>
