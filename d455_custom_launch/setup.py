@@ -23,6 +23,7 @@ setup(
     license='TODO: License declaration',
     entry_points={
         'console_scripts': [
+            'd455_record = d455_custom_launch.d455_record:main'
         ],
     },
 )
