@@ -17,7 +17,12 @@
   <depend>nav2_costmap_2d</depend>
   <depend>tf2_ros</depend>
 
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>tf_transformations</exec_depend>
   <export>
     <build_type>ament_cmake</build_type>
+    <pluginlib plugin="${prefix}/plugins.xml"/>
   </export>
 </package>

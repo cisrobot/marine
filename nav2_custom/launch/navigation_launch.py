@@ -84,7 +84,7 @@ def generate_launch_description():
 
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
-        default_value='/home/marin/marine/src/nav2_custom/params/backup.yaml',
+        default_value='/home/marin/marine/src/nav2_custom/params/seg.yaml',
         description='Full path to the ROS2 parameters file to use for all launched nodes')
 
     declare_autostart_cmd = DeclareLaunchArgument(
