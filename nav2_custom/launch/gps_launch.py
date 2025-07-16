@@ -12,16 +12,6 @@ def generate_launch_description():
         description='Path to YAML file with robot_localization + navsat_transform parameters'
     )
 
-    ekf_odom_node = Node(
-        package='robot_localization',
-        executable='ekf_node',
-        name='ekf_filter_node_odom',
-        output='screen',
-        parameters=[params_file],
-        arguments=['--ros-args', '--log-level', 'info'],
-        remappings=[("odometry/filtered", "odom/local_ekf")],
-    )
-
     ekf_map_node = Node(
         package='robot_localization',
         executable='ekf_node',
@@ -50,7 +40,6 @@ def generate_launch_description():
 
     return LaunchDescription([
         declare_params_file,
-        #ekf_odom_node,
         ekf_map_node,
         navsat_node
     ])

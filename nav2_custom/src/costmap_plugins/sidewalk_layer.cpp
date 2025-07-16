@@ -1,5 +1,8 @@
 #include "nav2_custom/costmap_plugins/sidewalk_layer.hpp"
 #include "pluginlib/class_list_macros.hpp"
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Matrix3x3.h>
+
 
 PLUGINLIB_EXPORT_CLASS(nav2_custom::SidewalkLayer, nav2_costmap_2d::Layer)
 
@@ -25,7 +28,7 @@ void SidewalkLayer::costmapCallback(const nav_msgs::msg::OccupancyGrid::SharedPt
 {
   latest_costmap_ = msg;
   received_ = true;
-  RCLCPP_INFO(node_.lock()->get_logger(), "OccupancyGrid received (size: %ux%u)", msg->info.width, msg->info.height);
+  //RCLCPP_INFO(node_.lock()->get_logger(), "OccupancyGrid received (size: %ux%u)", msg->info.width, msg->info.height);
 }
 
 void SidewalkLayer::updateBounds(
@@ -71,18 +74,42 @@ void SidewalkLayer::updateCosts(
         cost = nav2_costmap_2d::LETHAL_OBSTACLE;
       }
 
-      double wx = origin_x + (x + 0.5) * latest_costmap_->info.resolution;
-      double wy = origin_y + (y + 0.5) * latest_costmap_->info.resolution;
+      double resolution = latest_costmap_->info.resolution;
+
+      // orientation (회전) 반영
+      const auto &orientation = latest_costmap_->info.origin.orientation;
+      tf2::Quaternion q(
+        orientation.x,
+        orientation.y,
+        orientation.z,
+        orientation.w
+      );
+      double roll, pitch, yaw;
+      tf2::Matrix3x3(q).getRPY(roll, pitch, yaw);
+
+      double dx = (x + 0.5) * resolution;
+      double dy = (y + 0.5) * resolution;
+
+      // 회전 적용 (origin 좌표계를 기준으로)
+      double wx = origin_x + dx * std::cos(yaw) - dy * std::sin(yaw);
+      double wy = origin_y + dx * std::sin(yaw) + dy * std::cos(yaw);
+
 
       unsigned int mx, my;
       if (master_grid.worldToMap(wx, wy, mx, my)) {
         unsigned char existing_cost = master_grid.getCost(mx, my);
 
-        // ★ 기존 장애물이면 덮지 않음
-        if (existing_cost == nav2_costmap_2d::NO_INFORMATION ||
-            existing_cost == nav2_costmap_2d::FREE_SPACE) {
-          master_grid.setCost(mx, my, cost);
+        // 장애물은 무조건 누적, free만 선택적으로 업데이트
+        if (cost == nav2_costmap_2d::LETHAL_OBSTACLE) {
+          master_grid.setCost(mx, my, nav2_costmap_2d::LETHAL_OBSTACLE);
+        } else {
+          if (existing_cost == nav2_costmap_2d::NO_INFORMATION ||
+              existing_cost == nav2_costmap_2d::FREE_SPACE) {
+            master_grid.setCost(mx, my, nav2_costmap_2d::FREE_SPACE);
+          }
+          // 기존 장애물이 있으면 그대로 유지 (절대 덮지 않음)
         }
+
       }
     }
   }
@@ -101,3 +128,4 @@ void SidewalkLayer::reset()
   latest_costmap_.reset();
 }
 }
+

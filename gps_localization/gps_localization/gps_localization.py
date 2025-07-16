@@ -29,6 +29,7 @@ class GPSLocalization(Node):
 
         self.get_logger().info("GPS_Localization 노드 시작됨: ARM 요청 중...")
 
+    #mavros 상태 수신 및 armed 콜
     def state_callback(self, msg):
         self.armed = msg.armed
 
@@ -37,9 +38,10 @@ class GPSLocalization(Node):
             self.armed_logged = True
             self.timer.cancel()  # 더 이상 ARM 요청 안 보냄
 
-            # self.get_logger().info("GPS EKF 런치 시작")
-            # subprocess.Popen(
-            #     ["ros2", "launch", "nav2_custom", "gps_launch.py"])
+            #gps navsat_ekf 
+            self.get_logger().info("GPS EKF 런치 시작")
+            subprocess.Popen(
+               ["ros2", "launch", "nav2_custom", "gps_launch.py"])
             
     def send_arm_request(self):
         if self.armed_logged:

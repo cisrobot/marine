@@ -4,6 +4,7 @@ bt_navigator:
     use_sim_time: false
     global_frame: odom
     robot_base_frame: base_link
+    # odom_topic: /scout_mini_base_controller/odom
     odom_topic: /scout_mini_base_controller/odom
     bt_loop_duration: 10
     default_server_timeout: 20
